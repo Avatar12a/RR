@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winkelwagen - Krachtzonwering</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #cart-section {
+            width: 100%;
+        }
+
+        .cart-items {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #fd7e14; /* Oranje */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkout-button:hover {
+            background-color: #e86c0c; /* Donker oranje */
+        }
+
+        .checkout-button:hover {
+            background-color: #218838; /* Donkergroen */
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nieuwe banner -->
+    <div class="new-banner">
+        <span>✓</span> 15 werkdagen levertijd 
+        <span>✓</span> Levering in Nederland & België
+        <span>✓</span> Binnen 24 uur reactie op uw bericht
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="afbeedlingen/logo.img.png" alt="Krachtzonwering Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Producten</a></li>
+                <li><a href="overons.html">Over Ons</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Container voor winkelwagen -->
+    <div class="container">
+        <!-- Winkelwagen Sectie -->
+        <section id="cart-section">
+            <h1>Winkelwagen</h1>
+
+            <div id="cart-items" class="cart-items">
+                <!-- Dynamische inhoud van de winkelwagen -->
+            </div>
+
+            <button id="checkout-button" class="checkout-button" onclick="checkout();">Ga naar afrekenen</button>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Krachtzonwering - Alle rechten voorbehouden.</p>
+    </footer>
+
+    <script src="winkelwagen.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krachtzonwering - Zonnescherm Configurator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #configurator {
+            flex: 2;
+        }
+
+        .cart-sidebar {
+            flex: 1;
+            position: sticky;
+            top: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nieuwe banner -->
+<div class="new-banner">
+    <span>✓</span> 15 werkdagen levertijd 
+    <span>✓</span> Levering in Nederland & België
+    <span>✓</span> Binnen 24 uur reactie op uw bericht
+</div>
+
+<!-- Header -->
+<header>
+    <div class="logo">
+        <img src="afbeedlingen/logo.img.png" alt="Krachtzonwering Logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="winkelwagen.html"><i class="fas fa-shopping-cart"></i> Winkelwagen</a></li>
+            <li><a href="overons.html">Over Ons</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Meldingen container -->
+<div id="message-container"></div>
+
+<!-- Container voor configurator en winkelwagen -->
+<div class="container">
+    <!-- Configurator -->
+    <section id="configurator">
+        <div class="order-text">Configureer uw zonnescherm <span>✓</span></div>
+        <div class="configurator-container">
+            <h3>Configureer uw zonnescherm</h3>
+
+            <!-- Melding boven afmetingen -->
+            <div id="error-message" class="hidden"></div>
+
+            <!-- Formulier -->
+            <div class="form-grid">
+                <!-- Afmetingen -->
+                <div class="form-group">
+                    <label for="width">Breedte (cm):</label>
+                    <input type="number" id="width" name="width" min="100" max="600" placeholder="Voer de breedte in" onblur="validateInputOnBlur(this)" oninput="calculatePrice();">
+                </div>
+                <div class="form-group">
+                    <label for="projection">Uitval (cm):</label>
+                    <select id="projection" name="projection" onchange="calculatePrice();">
+                        <option value="300">300 cm</option>
+                        <option value="350">350 cm</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fabric-color">Kleur doek:</label>
+                    <select id="fabric-color" name="fabric-color" onchange="calculatePrice();">
+                        <option value="zwart">Zwart</option>
+                        <option value="antraciet">Antraciet</option>
+                        <option value="beige">Beige</option>
+                        <option value="donkerrood">Donkerrood</option>
+                        <option value="donkerblauw">Donkerblauw</option>
+                        <option value="donkergroen">Donkergroen</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label for="frame-color">Kleur frame:</label>
+                    <select id="frame-color" name="frame-color" onchange="calculatePrice();">
+                        <option value="wit">Wit (RAL 9010)</option>
+                        <option value="antraciet">Antraciet (RAL 7016)</option>
+                        <option value="zilver">Zilver (RAL 9006)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="motor-type">Type motor:</label>
+                    <select id="motor-type" name="motor-type" onchange="calculatePrice();">
+                        <option value="handbediend">Handbediend</option>
+                        <option value="standaard-schakelaar">Standaard schakelaar</option>
+                        <option value="standaard-afstandsbediening">Standaard afstandsbediend</option>
+                        <option value="somfy-schakelaar">Somfy schakelaar</option>
+                        <option value="somfy-afstandsbediening-rts">Somfy afstandsbediend RTS</option>
+                        <option value="somfy-afstandsbediening-io">Somfy afstandsbediend IO</option>
+                    </select>
+                </div> 
+                
+                <div class="form-group">
+                    <label for="switch-type">Type schakelaar:</label>
+                    <select id="switch-type" name="switch-type" onchange="calculatePrice();">
+                        <option value="geen">Geen</option>
+                        <option value="opbouw-draaischakelaar">Opbouw draaischakelaar</option>
+                        <option value="inbouw-draaischakelaar">Inbouw draaischakelaar</option>
+                        <option value="draadloze-muurschakelaar">Draadloze muurschakelaar</option>
+                        <option value="standaard-afstandsbediening">Afstandsbediening</option>
+                        <option value="situo-1-pure-io">Situo 1 Pure IO</option>
+                        <option value="situo-5-pure-io">Situo 5 Pure IO</option>
+                        <option value="situo-rts-1-kanaal">Situo RTS 1 kanaal</option>
+                        <option value="situo-rts-5-kanaals">Situo RTS 5 Kanaals</option>
+                        <option value="smoove-origin-1-io">Smoove Origin 1 IO</option>
+                        <option value="smoove-origin-rts-1">Smoove Origin RTS 1</option>
+                    </select>
+                </div>               
+
+                <!-- Bedieningszijde -->
+                <div class="form-group">
+                    <label for="operation-side">Bedieningszijde (vanuit binnen naar buiten bekeken):</label>
+                    <select id="operation-side" name="operation-side" onchange="calculatePrice();">
+                        <option value="links">Links</option>
+                        <option value="rechts">Rechts</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mounting-type">Montagewijze:</label>
+                    <select id="mounting-type" name="mounting-type" onchange="calculatePrice();">
+                        <option value="muurmontage">Muurmontage</option>
+                        <option value="plafondmontage">Plafondmontage</option>
+                    </select>
+                </div>                
+
+                <!-- Extra eigenschappen -->
+                <div class="form-group">
+                    <label for="installation">Installatie:</label>
+                    <select id="installation" name="installation" onchange="calculatePrice();">
+                        <option value="zonder">Zonder installatie</option>
+                        <option value="met">Met installatie</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Prijs en meldingen -->
+            <div id="price-container">
+                <div class="price" id="price">Totaalprijs: €0.00</div>
+                <div id="input-error-message" class="hidden"></div>
+                <div id="success-message" class="hidden"></div>
+            </div>
+            <button type="button" id="add-to-cart-button" onclick="addToCart();">Toevoegen aan winkelwagen</button>
+        </div>
+    </section>
+
+    <!-- Winkelwagen -->
+    <div class="cart-sidebar">
+        <h3>Winkelwagen</h3>
+        <div id="cart-items">
+            <!-- Dynamische inhoud van de winkelwagen -->
+        </div>
+        <div id="total-price">Totaal: €0.00</div>
+        <a href="winkelwagen.html">
+            <button id="checkout-button">Ga naar afrekenen</button>
+        </a>
+    </div>    
+</div>
+
+<!-- Mobiele cart button -->
+<a href="winkelwagen.html">
+    <button id="cart-button" class="cart-button">🛒 Winkelwagen</button>
+</a>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Krachtzonwering - Alle rechten voorbehouden.</p>
+</footer>
+
+<script src="ZonneschermenMain.js"></script>
+</body>
+</html>
