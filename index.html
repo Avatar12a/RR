@@ -1,584 +1,104 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fffacd; /* Rustgevend geel als achtergrond */
-    color: #333;
-}
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krachtzonwering - Webshop</title>
+    <!-- Font Awesome voor icoontjes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Externe CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Nieuwe banner boven de oranje banner -->
+<div class="new-banner">
+    <span>✓</span> 15 werkdagen levertijd 
+    <span>✓</span> Levering in Nederland & België
+    <span>✓</span> Binnen 24 uur reactie op uw bericht
+</div>
+
+<!-- Header -->
+<header>
+    <div class="logo">
+        <img src="afbeedlingen/logo.img.png" alt="Krachtzonwering Logo"> <!-- Vervang dit met je logo afbeelding -->
+    </div>
+    <nav>
+        <ul>
+            <li><a href="winkelwagen.html"><i class="fas fa-shopping-cart"></i> Winkelwagen</a></li>
+            <li><a href="overons.html">Over Ons</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Nieuwe sectie voor de tekst "Bestel makkelijk online" -->
+<div class="order-text">
+    Bestel makkelijk online <span>✔</span>
+</div>
+
+<!-- Rolluiken, Screens, Zonneschermen & Jaloezieën -->
+<section id="rolluiken-en-screens">
+    <div class="section-title"></div>
+    <div class="product-list">
+        <div class="product">
+            <img src="afbeedlingen/209.png" alt="Rolluik">
+            <h3>Rolluiken</h3>
+            <p>Beschikbaar in verschillende maten en configuraties.</p>
+            <a href="Rolluiken.html"><button>Bekijk Rolluiken</button></a>
+        </div>
+        <div class="product">
+            <img src="afbeedlingen/210.png" alt="Screens">
+            <h3>Screens</h3>
+            <p>Screens bieden optimale zonwering en privacy.</p>
+            <a href="Screens.html"><button>Bekijk Screens</button></a>
+        </div>
+        <div class="product">
+            <img src="afbeedlingen/211.png" alt="Zonnescherm">
+            <h3>Zonnescherm</h3>
+            <p>Bescherm uw terras tegen zonlicht met ons zonnescherm.</p>
+            <a href="Zonneschermen.html"><button>Bekijk Zonnescherm</button></a>
+        </div>
+        <div class="product">
+            <img src="afbeedlingen/333.webp" alt="Jaloezieën">
+            <h3>Jaloezieën</h3>
+            <p>Elegante jaloezieën voor een warm interieur.</p>
+            <a href="Jalouzieen.html"><button>Bekijk Jaloezieën</button></a>
+        </div>
+    </div>
+</section>
+
+<!-- Drie blokken naast elkaar met informatie -->
+<div class="info-container">
+    <!-- Blok 1: Dé snelste maatwerk levering -->
+    <div class="info-block">
+        <p class="first-line"><span class="green-checkmark">✔</span>De snelste maatwerk levering</p>
+        <p><span class="green-checkmark">✓</span> Tussen 10 en 20 werkdagen bezorgd</p>
+        <p><span class="green-checkmark">✓</span> Levering in Nederland & België</p>
+        <p><span class="green-checkmark">✓</span> Binnen 24 uur reactie op uw bericht</p>
+    </div>
+
+    <!-- Blok 2: Montage service -->
+    <div class="info-block">
+        <p class="first-line"><span class="green-checkmark">✔</span>Montage service</p>
+        <p><span class="green-checkmark">✓</span> Inmeten</p>
+        <p><span class="green-checkmark">✓</span> Installeren en afstellen</p>
+        <p><span class="green-checkmark">✓</span> Bekabeling aansluiten en afwerken</p>
+    </div>
+
+    <!-- Blok 3: Solar Producten -->
+    <div class="info-block">
+        <p class="first-line"><span class="green-checkmark">✔</span>SOLAR PRODUCTEN</p>
+        <p><span class="green-checkmark">✓</span> Slimme solar producten</p>
+        <p><span class="green-checkmark">✓</span> 100% draadloos</p>
+        <p><span class="green-checkmark">✓</span> Werkt ook bij weinig zon</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Krachtzonwering - Alle rechten voorbehouden.</p>
+</footer>
 
-/* Succesmelding */
-#success-message {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-}
-
-/* Foutmelding */
-#error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-bottom: 10px; /* Correcte positie boven de invoervelden */
-    text-align: center;
-}
-
-/* Foutmeldingen naast de prijs */
-#input-error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-}
-
-/* Verborgen elementen */
-.hidden {
-    display: none;
-}
-
-/* Menu Header */
-header {
-    background-color: #ff8c00;
-    padding: 5px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    height: 65px;
-    position: relative;
-}
-
-header .logo img {
-    max-height: 140px;
-    position: absolute;
-    top: -35px;
-}
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-    padding: 0;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-}
-
-nav ul li a i {
-    margin-right: 8px;
-}
-
-/* Banner bovenaan */
-.banner {
-    background-color: #ff8c00;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80px;
-    padding: 10px 0;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.banner span {
-    color: green;
-}
-
-/* Nieuwe extra banner boven de oranje banner */
-.new-banner {
-    background-color: #fffacd;
-    color: #333;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* Nieuwe sectie voor "Bestel makkelijk online" tekst */
-.order-text {
-    text-align: center;
-    font-size: 24px;
-    color: black;
-    font-weight: bold;
-    padding: 20px 0;
-}
-
-.order-text span {
-    color: green;
-}
-
-/* Product secties */
-.content-section {
-    padding: 20px;
-}
-
-.section-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Grid voor de categorieën met producten */
-.product-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    padding: 20px;
-}
-
-.product {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 300px;
-}
-
-.product img {
-    max-width: 100%;
-    height: 150px;
-    object-fit: contain;
-}
-
-.product h3 {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-.product p {
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.product button {
-    background-color: #ff8c00;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Winkelwagen Scrollbaar */
-#cart-items {
-    max-height: 400px; /* Beperk de maximale hoogte */
-    overflow-y: auto; /* Maak de inhoud scrollbaar */
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Optionele styling voor de titel */
-#cart-items h2 {
-    margin-top: 0;
-    font-size: 18px;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-@media (min-width: 768px) {
-    .cart-button {
-        display: none;
-    }
-}
-
-/* Container voor de info blokken */
-.info-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-    margin-bottom: 40px;
-}
-
-.info-block {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    flex: 1;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-.info-block .first-line {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.info-block p {
-    display: flex;
-    align-items: baseline;
-    margin: 10px 0;
-}
-
-.info-block p .green-checkmark {
-    color: green;
-    font-size: 18px;
-    margin-right: 10px;
-}
-
-.info-block p span {
-    font-size: 14px;
-}
-
-/* Configurator container */
-.configurator-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.configurator-container h3 {
-    text-align: center;
-    color: black;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Formulier grid */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-
-@media (max-width: 768px) {
-    header .logo {
-        display: none; /* Verberg alleen het logo */
-    }
-
-    .banner {
-        display: flex; /* Toon de oranje banner opnieuw */
-    }
-
-    .cart-sidebar {
-        display: none; /* Verberg de winkelwagensidebar */
-    }
-
-    .cart-button {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #ff8c00;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 25px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        font-size: 14px;
-        z-index: 1000;
-        cursor: pointer;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .form-group input,
-    .form-group select {
-        max-width: calc(100% - 20px); /* Zorg dat de velden binnen de container blijven */
-        margin: auto;
-    }
-
-    .configurator-container {
-        margin-top: 10px;
-        padding: 15px;
-        gap: 10px;
-    }
-}
-
-/* Formuliergroepen */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-.form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-/* Specifieke aanpassingen voor "Hoogte" en "Hoogte zijgeleiders" */
-#height,
-#guide-height {
-    width: calc(100% - 20px); /* Verminder de breedte zodat het veld netjes binnen blijft */
-    max-width: 400px; /* Maximaliseer de breedte op 300px */
-    margin-left: auto; /* Zorg voor automatische uitlijning binnen de container */
-    margin-right: auto; /* Voeg ruimte toe aan de rechterkant */
-    display: block; /* Zorg ervoor dat het veld netjes blokgeoriënteerd is */
-}
-
-
-/* Prijsweergave */
-.price {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-    text-align: center;
-    color: #333;
-}
-
-/* Knop styling */
-button {
-    background-color: #ff8c00;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-}
-
-button:hover {
-    background-color: #e67e00;
-}
-
-/* Responsive aanpassing voor kleinere schermen */
-@media (max-width: 768px) {
-    .info-container {
-        flex-direction: column;
-    }
-
-    .configurator-container {
-        gap: 15px;
-    }
-}
-
-/* Footer styling */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-footer p {
-    margin: 0;
-}
-
-/* Winkelwagen Sidebar */
-.cart-sidebar {
-    flex: 1;
-    position: sticky;
-    top: 20px;
-    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-}
-
-.cart-sidebar ul,
-.cart-sidebar ol {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.cart-item:last-child {
-    border-bottom: none;
-}
-
-.cart-item img {
-    width: 50px;
-    height: 50px;
-    border-radius: 4px;
-    object-fit: cover;
-}
-
-.cart-item-details {
-    flex: 1;
-    margin-left: 10px;
-}
-
-.cart-item-title {
-    font-size: 1em;
-    font-weight: bold;
-    color: #444;
-}
-
-.cart-item-price {
-    font-size: 0.9em;
-    color: #777;
-}
-
-.quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.quantity-controls button {
-    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
-    color: black;
-    border: 1px solid #ccc;
-    padding: 4px 6px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.quantity-controls button:hover {
-    background: #e0e0e0;
-}
-
-.cart-item .remove-item {
-    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
-    color: black;
-    border: 1px solid #ccc;
-    padding: 4px 6px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.cart-item .remove-item:hover {
-    background: #e0e0e0;
-}
-
-.cart-quantity {
-    width: 40px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.cart-quantity:focus {
-    border-color: #888;
-}
-
-#total-price {
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: right;
-    margin-top: 20px;
-    color: #333;
-}
-
-button#add-to-cart-button {
-    background: #ff8c00;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 1em;
-    width: 100%;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button#add-to-cart-button:hover {
-    background: #e67e00;
-}
-
-/* Specifieke stijl voor het prullenbakicoon */
-.delete-btn {
-    background-color: transparent;
-    border: none;
-    color: red;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.delete-btn:hover {
-    color: darkred;
-}
-
-/* Algemeen: Zorg ervoor dat de body en html niet buiten de breedte van de content komen */
-html, body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    width: 100%;
-    overflow-x: hidden; /* Beperk horizontale scroll */
-  }
-  
-  /* Productlijst: zorg dat de pictogrammen de volledige breedte van het scherm vullen */
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin: 20px;
-  }
-  
-  .product {
-    text-align: center;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Media query voor kleine schermen */
-  @media (max-width: 768px) {
-    .product-list {
-      grid-template-columns: 1fr; /* Eén kolom */
-      gap: 10px;
-    }
-  
-    .product img {
-      width: 100%; /* Vul de breedte */
-      height: auto; /* Houd de verhoudingen */
-      max-width: 100%; /* Zorg ervoor dat het niet groter wordt dan de container */
-    }
-  
-    body {
-      overflow-x: hidden; /* Beperk horizontaal scrollen */
-    }
-  }
-  
+</body>
+</html>
