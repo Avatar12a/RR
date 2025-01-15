@@ -540,81 +540,50 @@ button#add-to-cart-button:hover {
 }
 
 @media (max-width: 768px) {
-    /* Beperk het inzoomen tot de maximale breedte van de pictogrammen */
-    body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden; /* Voorkom horizontaal scrollen */
-        max-width: 100vw; /* Beperk de breedte tot de viewport */
-    }
-
-    /* Product grid: 2 bij 2 layout */
+    /* Pas de grid aan voor kleinere schermen */
     .product-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 pictogrammen naast elkaar */
-        gap: 15px; /* Ruimte tussen de items */
-        padding: 20px; /* Ruimte rondom de grid */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Pictogrammen iets kleiner */
+        gap: 15px; /* Iets minder ruimte tussen items */
     }
 
+    /* Productcontainer */
     .product {
-        background-color: #fff;
-        padding: 10px; /* Compacte padding */
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        text-align: center;
+        padding: 10px; /* Minder padding voor compacte weergave */
+        height: auto; /* Laat de hoogte meeschalen */
     }
 
+    /* Afbeeldingen */
     .product img {
-        width: 100%; /* Vul de kolom */
-        max-width: 140px; /* Beperk de grootte van de afbeeldingen */
-        height: auto; /* Behoud de verhoudingen */
-        margin: 0 auto 10px; /* Midden uitlijnen en ruimte onder afbeelding */
+        max-width: 100%; /* Vul de kolom volledig */
+        max-height: 120px; /* Beperk de hoogte van de afbeelding */
+        object-fit: contain; /* Zorg dat de verhoudingen behouden blijven */
     }
 
+    /* Knoppen */
+    .product button {
+        font-size: 14px; /* Maak de knoppen iets kleiner */
+        padding: 8px 12px; /* Compactere knoppen */
+        margin-top: 10px; /* Ruimte boven de knop */
+    }
+
+    /* Pas teksten in de productcontainer aan */
     .product h3 {
         font-size: 16px; /* Iets kleinere koptekst */
-        margin: 8px 0;
+        margin: 8px 0; /* Minder ruimte rond de koptekst */
     }
 
     .product p {
-        font-size: 12px; /* Kleinere tekst voor beschrijving */
-        margin: 5px 0 10px;
+        font-size: 12px; /* Kleinere tekst voor productbeschrijving */
     }
 
-    .product button {
-        background-color: #ff8c00;
-        color: white;
-        border: none;
-        padding: 8px 12px; /* Compactere knoppen */
-        font-size: 14px;
-        border-radius: 4px;
-        cursor: pointer;
+    /* Verberg logo alleen als het nodig is */
+    header .logo img {
+        max-height: 100px; /* Zorg ervoor dat het logo kleiner wordt */
+        display: block; /* Blijf het logo tonen */
     }
 
-    /* Informatieblokken: onder de producten, strak verdeeld */
-    .info-container {
-        display: grid;
-        grid-template-columns: 1fr; /* Eén kolom */
-        gap: 15px; /* Ruimte tussen de blokken */
-        padding: 20px; /* Ruimte rondom */
-    }
-
-    .info-block {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .info-block p {
-        font-size: 14px;
-        margin: 10px 0;
-    }
-
-    .info-block .first-line {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 10px;
+    /* Beperk horizontale scrolling */
+    body {
+        overflow-x: hidden;
     }
 }
