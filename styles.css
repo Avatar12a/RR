@@ -539,3 +539,51 @@ button#add-to-cart-button:hover {
     color: darkred;
 }
 
+@media (max-width: 768px) {
+    /* Pas de grid aan voor kleinere schermen */
+    .product-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Pictogrammen iets kleiner */
+        gap: 15px; /* Iets minder ruimte tussen items */
+    }
+
+    /* Productcontainer */
+    .product {
+        padding: 10px; /* Minder padding voor compacte weergave */
+        height: auto; /* Laat de hoogte meeschalen */
+    }
+
+    /* Afbeeldingen */
+    .product img {
+        max-width: 100%; /* Vul de kolom volledig */
+        max-height: 120px; /* Beperk de hoogte van de afbeelding */
+        object-fit: contain; /* Zorg dat de verhoudingen behouden blijven */
+    }
+
+    /* Knoppen */
+    .product button {
+        font-size: 14px; /* Maak de knoppen iets kleiner */
+        padding: 8px 12px; /* Compactere knoppen */
+        margin-top: 10px; /* Ruimte boven de knop */
+    }
+
+    /* Pas teksten in de productcontainer aan */
+    .product h3 {
+        font-size: 16px; /* Iets kleinere koptekst */
+        margin: 8px 0; /* Minder ruimte rond de koptekst */
+    }
+
+    .product p {
+        font-size: 12px; /* Kleinere tekst voor productbeschrijving */
+    }
+
+    /* Verberg logo alleen als het nodig is */
+    header .logo img {
+        max-height: 100px; /* Zorg ervoor dat het logo kleiner wordt */
+        display: block; /* Blijf het logo tonen */
+    }
+
+    /* Beperk horizontale scrolling */
+    body {
+        overflow-x: hidden;
+    }
+}
