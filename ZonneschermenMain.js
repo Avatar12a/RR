@@ -171,8 +171,21 @@ function initializeForm() {
 // Start de configurator bij laden van de pagina
 window.addEventListener("load", initializeForm);
 
-// Winkelwagen functionaliteit integreren met validaties
-const cart = [];
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function initializeCart() {
+    console.log("Winkelwagen initialiseren...");
+    updateCart();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeCart();
+    attachCartEventListeners();
+});
 
 function addToCart() {
     console.log("addToCart aangeroepen"); // Debugging
@@ -250,6 +263,7 @@ function addToCart() {
         cart.push(item);
     }
 
+    saveCartToLocalStorage();
     updateCart();
 
     if (successMessage) {
@@ -305,11 +319,13 @@ function updateCart() {
     });
 
     totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
+    saveCartToLocalStorage();
 }
 
 function incrementItem(index) {
     if (cart[index]) {
         cart[index].quantity++;
+        saveCartToLocalStorage();
         updateCart();
     }
 }
@@ -321,6 +337,7 @@ function decrementItem(index) {
         } else {
             cart.splice(index, 1);
         }
+        saveCartToLocalStorage();
         updateCart();
     }
 }
@@ -328,6 +345,7 @@ function decrementItem(index) {
 function removeItem(index) {
     if (cart[index]) {
         cart.splice(index, 1);
+        saveCartToLocalStorage();
         updateCart();
     }
 }
