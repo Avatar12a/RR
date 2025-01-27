@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const priceContainer = document.getElementById("price");
     const errorMessageContainer = document.getElementById("error-message");
 
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCart(); // Zorg ervoor dat de winkelwageninhoud direct zichtbaar is
+
     // Formule voor elektrische jaloezieën
     function calculateElectricPrice(height, width) {
         return Math.max(0, (
@@ -163,6 +166,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return totalPrice; // Return price for use in addToCart
     }
 
+    function saveCartToLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function initializeCart() {
+        console.log("Winkelwagen wordt geïnitialiseerd...");
+        updateCart(); // Toon direct de winkelwagen
+    }
+
     function addToCart() {
         console.log("addToCart aangeroepen"); // Debugging
         const widthInput = document.getElementById('width');
@@ -176,13 +188,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const material = document.getElementById('material')?.value || '';
         const slatWidth = document.getElementById('slat-width')?.value || '';
         const ladder = document.getElementById('ladder')?.value || '';
-
+    
         const inputErrorMessage = document.getElementById('input-error-message');
         const successMessage = document.getElementById('success-message');
-
+    
         // Reset foutmeldingen en stijlen
         inputErrorMessage?.classList.add('hidden');
-
+    
         // Controleer invoer
         if (!width || !height) {
             if (inputErrorMessage) {
@@ -192,11 +204,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             return;
         }
-
+    
         // Bereken prijs
         const price = calculatePrice();
         if (!price) return;
-
+    
         const item = {
             name: "Jaloezieën",
             width,
@@ -211,9 +223,9 @@ document.addEventListener("DOMContentLoaded", () => {
             price: parseFloat(price),
             quantity: 1
         };
-
+    
         console.log("Product item:", item); // Debugging
-
+    
         const existingItemIndex = cart.findIndex(cartItem => {
             return cartItem.width === item.width &&
                 cartItem.height === item.height &&
@@ -225,16 +237,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 cartItem.slatWidth === item.slatWidth &&
                 cartItem.ladder === item.ladder;
         });
-
+    
         if (existingItemIndex !== -1) {
             cart[existingItemIndex].quantity++;
         } else {
             cart.push(item);
         }
-
+    
         console.log("Cart array na toevoegen:", cart); // Debugging
+        saveCartToLocalStorage();
         updateCart();
-
+    
         // Toon succesmelding
         if (successMessage) {
             successMessage.innerText = "Succesvol toegevoegd aan winkelwagen!";
@@ -242,19 +255,29 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => successMessage.classList.add('hidden'), 3000);
         }
     }
-
+    
     // Winkelwagen updaten
     function updateCart() {
         console.log("updateCart aangeroepen"); // Debugging
         const cartItems = document.getElementById('cart-items');
+        const totalPriceElement = document.getElementById('total-price');
+    
         if (!cartItems) {
-            console.error("Winkelwagencontainer niet gevonden!");
+            console.error("Element 'cart-items' niet gevonden in de DOM.");
             return;
         }
-
+        if (!totalPriceElement) {
+            console.error("Element 'total-price' niet gevonden in de DOM.");
+            return;
+        }
+    
         cartItems.innerHTML = ''; // Reset inhoud
         let total = 0;
+    
+        if (cart.length === 0) {
 
+        }
+    
         cart.forEach((item, index) => {
             const cartItem = document.createElement('div');
             cartItem.className = 'cart-item';
@@ -274,17 +297,12 @@ document.addEventListener("DOMContentLoaded", () => {
             cartItems.appendChild(cartItem);
             total += item.price * item.quantity;
         });
-
-        console.log("Totaal na updateCart:", total); // Debugging
-        const totalPriceElement = document.getElementById('total-price');
-        if (totalPriceElement) {
-            totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
-        }
-
+    
+        totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
+        console.log("Winkelwagen succesvol bijgewerkt.");
         attachCartEventListeners();
-        updateMiniCartButton();
     }
-
+       
     function attachCartEventListeners() {
         document.querySelectorAll(".increment-btn").forEach(button => {
             button.addEventListener("click", () => {
@@ -292,14 +310,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 incrementItem(index);
             });
         });
-
+    
         document.querySelectorAll(".decrement-btn").forEach(button => {
             button.addEventListener("click", () => {
                 const index = parseInt(button.dataset.index, 10);
                 decrementItem(index);
             });
         });
-
+    
         document.querySelectorAll(".delete-btn").forEach(button => {
             button.addEventListener("click", () => {
                 const index = parseInt(button.dataset.index, 10);
@@ -307,32 +325,33 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
-
+    
     function updateMiniCartButton() {
         const cartButton = document.getElementById('cart-button');
-
+    
         // Controleer of de knop aanwezig is
         if (!cartButton) {
             console.warn("Cart button niet gevonden!");
             return;
         }
-
+    
         // Bereken het totale aantal items en prijs
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
+    
         // Update de inhoud van de knop
         cartButton.innerHTML = `🛒 ${totalItems} producten - €${totalPrice.toFixed(2)}`;
         console.log("Mini-winkelwagen bijgewerkt:", { totalItems, totalPrice });
     }
-
+    
     function incrementItem(index) {
         if (cart[index]) {
             cart[index].quantity++;
+            saveCartToLocalStorage();
             updateCart();
         }
     }
-
+    
     function decrementItem(index) {
         if (cart[index]) {
             if (cart[index].quantity > 1) {
@@ -340,27 +359,40 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 cart.splice(index, 1); // Verwijder item als hoeveelheid 0 wordt
             }
+            saveCartToLocalStorage();
             updateCart();
         }
     }
-
+    
     function removeItem(index) {
         if (cart[index]) {
             cart.splice(index, 1);
+            saveCartToLocalStorage();
             updateCart();
         }
     }
-
+    
+    function displayLocalStorageContent() {
+        const localStorageContent = document.getElementById('local-storage-content');
+        if (localStorageContent) {
+            localStorageContent.innerText = JSON.stringify(cart, null, 2);
+        } else {
+            console.log("localStorage inhoud (geen element gevonden):", cart);
+        }
+    }
+    
     document.querySelectorAll("#configurator input, #configurator select").forEach((input) => {
         input.addEventListener("input", calculatePrice);
         input.addEventListener("change", calculatePrice);
-    });
 
+    });
+    
     document.getElementById("width")?.addEventListener("blur", validateWidth);
     document.getElementById("height")?.addEventListener("blur", validateHeight);
     document.getElementById("add-to-cart-button")?.addEventListener("click", addToCart);
+    
+    calculatePrice(); 
+    
+    console.log("Cart bij laden:", cart);
 
-    calculatePrice();
-
-    const cart = [];
 });
