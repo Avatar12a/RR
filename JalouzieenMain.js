@@ -274,10 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cartItems.innerHTML = ''; // Reset inhoud
         let total = 0;
     
-        if (cart.length === 0) {
-
-        }
-    
         cart.forEach((item, index) => {
             const cartItem = document.createElement('div');
             cartItem.className = 'cart-item';
@@ -301,8 +297,9 @@ document.addEventListener("DOMContentLoaded", () => {
         totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
         console.log("Winkelwagen succesvol bijgewerkt.");
         attachCartEventListeners();
+        updateMiniCartButton();
     }
-       
+    
     function attachCartEventListeners() {
         document.querySelectorAll(".increment-btn").forEach(button => {
             button.addEventListener("click", () => {
@@ -329,17 +326,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateMiniCartButton() {
         const cartButton = document.getElementById('cart-button');
     
-        // Controleer of de knop aanwezig is
         if (!cartButton) {
             console.warn("Cart button niet gevonden!");
             return;
         }
     
-        // Bereken het totale aantal items en prijs
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
-        // Update de inhoud van de knop
         cartButton.innerHTML = `🛒 ${totalItems} producten - €${totalPrice.toFixed(2)}`;
         console.log("Mini-winkelwagen bijgewerkt:", { totalItems, totalPrice });
     }
@@ -357,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (cart[index].quantity > 1) {
                 cart[index].quantity--;
             } else {
-                cart.splice(index, 1); // Verwijder item als hoeveelheid 0 wordt
+                cart.splice(index, 1);
             }
             saveCartToLocalStorage();
             updateCart();
@@ -371,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateCart();
         }
     }
+    
     
     function displayLocalStorageContent() {
         const localStorageContent = document.getElementById('local-storage-content');
