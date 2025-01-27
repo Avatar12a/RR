@@ -320,6 +320,22 @@ function updateCart() {
 
     totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
     saveCartToLocalStorage();
+    updateMiniCartButton();
+}
+
+function updateMiniCartButton() {
+    const cartButton = document.getElementById('cart-button');
+
+    if (!cartButton) {
+        console.warn("Cart button niet gevonden!");
+        return;
+    }
+
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    cartButton.innerHTML = `🛒 ${totalItems} producten - €${totalPrice.toFixed(2)}`;
+    console.log("Mini-winkelwagen bijgewerkt:", { totalItems, totalPrice });
 }
 
 function incrementItem(index) {
