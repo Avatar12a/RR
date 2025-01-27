@@ -427,17 +427,29 @@ function initializeForm() {
 
 window.addEventListener('load', initializeForm);
 
-// Winkelwagen functionaliteiten
-const cart = [];
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Product toevoegen aan winkelwagen
+function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Initialiseer winkelwagen bij het laden van de pagina
+function initializeCart() {
+    console.log("Winkelwagen initialiseren...");
+    updateCart();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeCart();
+    attachCartEventListeners();
+});
+
 function addToCart() {
     console.log("addToCart aangeroepen"); // Debugging
     const widthInput = document.getElementById('width');
     const heightInput = document.getElementById('height');
     const width = parseFloat(widthInput?.value) || 0;
     const height = parseFloat(heightInput?.value) || 0;
-
     const motorType = document.getElementById('motor-type')?.value || '';
     const switchType = document.getElementById('switch-type')?.value || '';
     const falseWindowsill = document.getElementById('false-windowsill')?.value || '';
@@ -516,6 +528,7 @@ function addToCart() {
     }
 
     console.log("Cart array na toevoegen:", cart); // Debugging
+    saveCartToLocalStorage();
     updateCart();
 
     // Toon succesmelding
@@ -564,6 +577,7 @@ function updateCart() {
         totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
     }
 
+    saveCartToLocalStorage();
     updateMiniCartButton();
 }
 
@@ -588,6 +602,7 @@ function updateMiniCartButton() {
 function incrementItem(index) {
     if (cart[index]) {
         cart[index].quantity++;
+        saveCartToLocalStorage();
         updateCart();
     }
 }
@@ -599,6 +614,7 @@ function decrementItem(index) {
         } else {
             cart.splice(index, 1); // Verwijder item als hoeveelheid 0 wordt
         }
+        saveCartToLocalStorage();
         updateCart();
     }
 }
@@ -606,6 +622,18 @@ function decrementItem(index) {
 function removeItem(index) {
     if (cart[index]) {
         cart.splice(index, 1);
+        saveCartToLocalStorage();
         updateCart();
     }
 }
+
+document.querySelectorAll("#configurator input, #configurator select").forEach((input) => {
+    input.addEventListener("input", calculatePrice);
+    input.addEventListener("change", calculatePrice);
+});
+
+document.getElementById("width")?.addEventListener("blur", validateWidth);
+document.getElementById("height")?.addEventListener("blur", validateHeight);
+document.getElementById("add-to-cart-button")?.addEventListener("click", addToCart);
+
+calculatePrice();
