@@ -265,7 +265,19 @@ function calculatePrice() {
     return totalPrice;
 }
 
-const cart = [];
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// Synchronize cart with localStorage
+function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Initialiseer winkelwagen bij het laden van de pagina
+function initializeCart() {
+    updateCart();
+}
+
+document.addEventListener('DOMContentLoaded', initializeCart);
 
 // Product toevoegen aan winkelwagen
 function addToCart() {
@@ -307,29 +319,29 @@ function addToCart() {
     if (!price) return;
 
     const motorTypeDropdown = document.getElementById('motor-type');
-const motorTypeText = motorTypeDropdown.options[motorTypeDropdown.selectedIndex].text;
+    const motorTypeText = motorTypeDropdown.options[motorTypeDropdown.selectedIndex].text;
 
-// Vervang "Huismerk" door "Standaard" in de tekst
-const formattedMotorType = motorTypeText.replace(/^Huismerk/, "Standaard");
+    // Vervang "Huismerk" door "Standaard" in de tekst
+    const formattedMotorType = motorTypeText.replace(/^Huismerk/, "Standaard");
 
-// Stel het product samen met de aangepaste naam
-const item = {
-    name: `Aluprof Rolluik (${formattedMotorType})`, // Gebruik de tekst van de optie
-    width,
-    height,
-    motorType,
-    switchType,
-    falseWindowsill,
-    installation,
-    operationSide,
-    casingColor,
-    guideColor,
-    slatColor,
-    casingType,
-    guideType,
-    price: price.toFixed(2),
-    quantity: 1
-};
+    // Stel het product samen met de aangepaste naam
+    const item = {
+        name: `Aluprof Rolluik (${formattedMotorType})`, // Gebruik de tekst van de optie
+        width,
+        height,
+        motorType,
+        switchType,
+        falseWindowsill,
+        installation,
+        operationSide,
+        casingColor,
+        guideColor,
+        slatColor,
+        casingType,
+        guideType,
+        price: price.toFixed(2),
+        quantity: 1
+    };
 
     console.log("Product item:", item); // Debugging
 
@@ -355,6 +367,7 @@ const item = {
     }
 
     console.log("Cart array na toevoegen:", cart); // Debugging
+    saveCartToLocalStorage();
     updateCart();
 
     // Toon succesmelding
@@ -403,6 +416,7 @@ function updateCart() {
         totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
     }
 
+    saveCartToLocalStorage();
     updateMiniCartButton();
 }
 
@@ -427,6 +441,7 @@ function updateMiniCartButton() {
 function incrementItem(index) {
     if (cart[index]) {
         cart[index].quantity++;
+        saveCartToLocalStorage();
         updateCart();
     }
 }
@@ -438,6 +453,7 @@ function decrementItem(index) {
         } else {
             cart.splice(index, 1); // Verwijder item als hoeveelheid 0 wordt
         }
+        saveCartToLocalStorage();
         updateCart();
     }
 }
@@ -445,6 +461,7 @@ function decrementItem(index) {
 function removeItem(index) {
     if (cart[index]) {
         cart.splice(index, 1);
+        saveCartToLocalStorage();
         updateCart();
     }
 }
