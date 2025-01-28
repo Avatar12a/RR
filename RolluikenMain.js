@@ -289,7 +289,7 @@ function addToCart() {
 
     const motorType = document.getElementById('motor-type')?.value || '';
     const switchType = document.getElementById('switch-type')?.value || '';
-    const falseWindowsill = document.getElementById('falseWindowsill')?.value || '';
+    const falseWindowsill = document.getElementById('false-windowsill')?.value || '';
     const installation = document.getElementById('installation')?.value || '';
     const operationSide = document.getElementById('operation-side')?.value || '';
     const casingColor = document.getElementById('casing-color')?.value || '';
@@ -327,6 +327,7 @@ function addToCart() {
     // Stel het product samen met de aangepaste naam
     const item = {
         name: `Aluprof Rolluik (${formattedMotorType})`, // Gebruik de tekst van de optie
+        type: 'rolluik', // Specifiek type product toevoegen
         width,
         height,
         motorType,
@@ -346,18 +347,16 @@ function addToCart() {
     console.log("Product item:", item); // Debugging
 
     const existingItemIndex = cart.findIndex(cartItem => {
-        return cartItem.width === item.width &&
+        const isFalseWindowsillEqual = (cartItem.falseWindowsill === 'geen' && item.falseWindowsill === 'geen') ||
+                                       (cartItem.falseWindowsill !== 'geen' && item.falseWindowsill !== 'geen');
+
+        return cartItem.type === item.type &&
+            cartItem.width === item.width &&
             cartItem.height === item.height &&
             cartItem.motorType === item.motorType &&
-            cartItem.switchType === item.switchType &&
-            cartItem.falseWindowsill === item.falseWindowsill &&
             cartItem.installation === item.installation &&
-            cartItem.operationSide === item.operationSide &&
-            cartItem.casingColor === item.casingColor &&
-            cartItem.guideColor === item.guideColor &&
-            cartItem.slatColor === item.slatColor &&
-            cartItem.casingType === item.casingType &&
-            cartItem.guideType === item.guideType;
+            cartItem.switchType === item.switchType &&
+            isFalseWindowsillEqual;
     });
 
     if (existingItemIndex !== -1) {
@@ -378,25 +377,31 @@ function addToCart() {
     }
 }
 
-// Winkelwagen updaten
 function updateCart() {
-    console.log("updateCart aangeroepen"); // Debugging
-    const cartItems = document.getElementById('cart-items');
-    if (!cartItems) {
-        console.error("Winkelwagencontainer niet gevonden!");
-        return;
-    }
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalPriceElement = document.getElementById('total-price');
+    cartItemsContainer.innerHTML = '';
 
-    cartItems.innerHTML = ''; // Reset inhoud
     let total = 0;
-
     cart.forEach((item, index) => {
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
+
+        let specs = '';
+        if (item.type === 'zonnescherm') {
+            specs = `Breedte: ${item.width} cm, Uitval: ${item.projection} cm`;
+        } else if (item.type === 'rolluik') {
+            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
+        } else if (item.type === 'jaloezie') {
+            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm, Kleur: ${item.color}, Materiaal: ${item.material}`;
+        } else if (item.type === 'screen') {
+            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
+        }
+
         cartItem.innerHTML = `
             <div class="cart-item-details">
                 <span class="cart-item-title">${item.name}</span>
-                <span class="cart-item-specs">Breedte: ${item.width} cm, Hoogte: ${item.height} cm</span>
+                <span class="cart-item-specs">${specs}</span>
                 <span class="cart-item-price">Prijs: €${(item.price * item.quantity).toFixed(2)}</span>
                 <div class="quantity-controls">
                     <button onclick="decrementItem(${index})">-</button>
@@ -406,16 +411,11 @@ function updateCart() {
             </div>
             <button class="remove-item delete-btn" onclick="removeItem(${index})">&#10005;</button>
         `;
-        cartItems.appendChild(cartItem);
+        cartItemsContainer.appendChild(cartItem);
         total += item.price * item.quantity;
     });
 
-    console.log("Totaal na updateCart:", total); // Debugging
-    const totalPriceElement = document.getElementById('total-price');
-    if (totalPriceElement) {
-        totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
-    }
-
+    totalPriceElement.innerText = `Totaal: €${total.toFixed(2)}`;
     saveCartToLocalStorage();
     updateMiniCartButton();
 }
@@ -423,17 +423,14 @@ function updateCart() {
 function updateMiniCartButton() {
     const cartButton = document.getElementById('cart-button');
 
-    // Controleer of de knop aanwezig is
     if (!cartButton) {
         console.warn("Cart button niet gevonden!");
         return;
     }
 
-    // Bereken het totale aantal items en prijs
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    // Update de inhoud van de knop
     cartButton.innerHTML = `🛒 ${totalItems} producten - €${totalPrice.toFixed(2)}`;
     console.log("Mini-winkelwagen bijgewerkt:", { totalItems, totalPrice });
 }
@@ -451,7 +448,7 @@ function decrementItem(index) {
         if (cart[index].quantity > 1) {
             cart[index].quantity--;
         } else {
-            cart.splice(index, 1); // Verwijder item als hoeveelheid 0 wordt
+            cart.splice(index, 1);
         }
         saveCartToLocalStorage();
         updateCart();
