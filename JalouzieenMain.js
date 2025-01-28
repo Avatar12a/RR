@@ -182,7 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const width = parseFloat(widthInput?.value) || 0;
         const height = parseFloat(heightInput?.value) || 0;
         const color = document.getElementById('color')?.value || '';
-        const operationType = document.getElementById('operation-type')?.value || '';
+    
+        const operationTypeElement = document.getElementById('operation-type');
+        const operationType = operationTypeElement ? operationTypeElement.value : '';
+        const operationTypeText = operationTypeElement ? operationTypeElement.options[operationTypeElement.selectedIndex].text : '';
+    
         const installation = document.getElementById('setup')?.value || '';
         const installationMethod = document.getElementById('installation')?.value || '';
         const material = document.getElementById('material')?.value || '';
@@ -210,7 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!price) return;
     
         const item = {
-            name: "Jaloezieën",
+            name: `Jaloezieën (${operationTypeText})`,
+            type: 'jaloezie', // Specifiek type product toevoegen
             width,
             height,
             color,
@@ -228,14 +233,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
         const existingItemIndex = cart.findIndex(cartItem => {
             return cartItem.width === item.width &&
-                cartItem.height === item.height &&
-                cartItem.color === item.color &&
-                cartItem.operationType === item.operationType &&
-                cartItem.installation === item.installation &&
-                cartItem.installationMethod === item.installationMethod &&
-                cartItem.material === item.material &&
-                cartItem.slatWidth === item.slatWidth &&
-                cartItem.ladder === item.ladder;
+                   cartItem.height === item.height &&
+                   cartItem.color === item.color &&
+                   cartItem.material === item.material &&
+                   cartItem.operationType === item.operationType &&
+                   cartItem.installation === item.installation;
         });
     
         if (existingItemIndex !== -1) {
@@ -277,10 +279,22 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.forEach((item, index) => {
             const cartItem = document.createElement('div');
             cartItem.className = 'cart-item';
+    
+            let specs = '';
+            if (item.type === 'zonnescherm') {
+                specs = `Breedte: ${item.width} cm, Uitval: ${item.projection} cm`;
+            } else if (item.type === 'rolluik') {
+                specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
+            } else if (item.type === 'jaloezie') {
+                specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm, Kleur: ${item.color}, Materiaal: ${item.material},`;
+            } else if (item.type === 'screen') {
+                specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
+            }
+    
             cartItem.innerHTML = `
                 <div class="cart-item-details">
                     <span class="cart-item-title">${item.name}</span>
-                    <span class="cart-item-specs">Breedte: ${item.width} cm, Hoogte: ${item.height} cm, Kleur: ${item.color}</span>
+                    <span class="cart-item-specs">${specs}</span>
                     <span class="cart-item-price">Prijs: €${(item.price * item.quantity).toFixed(2)}</span>
                     <div class="quantity-controls">
                         <button class="decrement-btn" data-index="${index}">-</button>
@@ -366,7 +380,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    
     function displayLocalStorageContent() {
         const localStorageContent = document.getElementById('local-storage-content');
         if (localStorageContent) {
@@ -379,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("#configurator input, #configurator select").forEach((input) => {
         input.addEventListener("input", calculatePrice);
         input.addEventListener("change", calculatePrice);
-
+    
     });
     
     document.getElementById("width")?.addEventListener("blur", validateWidth);
@@ -389,5 +402,6 @@ document.addEventListener("DOMContentLoaded", () => {
     calculatePrice(); 
     
     console.log("Cart bij laden:", cart);
+    
 
 });
