@@ -3,28 +3,23 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Functie om een product toe te voegen aan de cart
 function addToCart(product) {
-    // Controleren of product al in cart zit
-    const existingProductIndex = cart.findIndex(item => {
-        return (
-            item.type === product.type &&
-            item.width === product.width &&
-            item.height === product.height &&
-            item.motorType === product.motorType &&
-            item.switchType === product.switchType &&
-            item.installation === product.installation
-        );
-    });
+    const existingProductIndex = cart.findIndex(item => (
+        item.type === product.type &&
+        item.width === product.width &&
+        item.height === product.height &&
+        item.motorType === product.motorType &&
+        item.switchType === product.switchType &&
+        item.installation === product.installation
+    ));
+
     if (existingProductIndex > -1) {
-        // Verhoog de hoeveelheid als het product al bestaat
         cart[existingProductIndex].quantity += product.quantity;
     } else {
-        // Voeg nieuw product toe
         cart.push(product);
     }
 
-    // Sla de bijgewerkte cart op in localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart(); // Update de weergave van de cart
+    updateCart();
 }
 
 // Functie om dynamisch een product toe te voegen vanuit een formulier
@@ -33,7 +28,6 @@ function addProductToCartFromForm(type) {
         const elements = document.getElementsByName(name);
         if (elements.length > 0 && elements[0].tagName === 'SELECT') {
             const selectedText = elements[0].options[elements[0].selectedIndex]?.text.trim() || "Niet opgegeven";
-            console.log(`Geselecteerde tekst voor ${name}: ${selectedText}`); // Debugging
             return selectedText;
         }
         return "Niet opgegeven";
@@ -67,53 +61,31 @@ function addProductToCartFromForm(type) {
         falseWindowsill: getSelectedText('false-windowsill'),
     };
 
-    console.log('Product toegevoegd aan cart:', product); // Debugging
     addToCart(product);
 }
 
-// Functie om de cart te updaten en weer te geven
+// Functie om de hoeveelheid van een product te wijzigen
+function updateQuantity(index, change) {
+    if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity < 1) cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCart();
+    }
+}
+
+// Functie om de cart te updaten en overzichtelijk weer te geven
 function updateCart() {
     const cartItemsContainer = document.getElementById('cart-items');
-    console.log('Container gevonden:', cartItemsContainer); // Debugging
-
-    cartItemsContainer.innerHTML = ''; // Reset de inhoud
+    cartItemsContainer.innerHTML = '';
 
     if (cart.length === 0) {
-        console.log('Cart is leeg.'); // Debugging
         const emptyMessage = document.createElement('p');
         emptyMessage.style.textAlign = 'center';
         emptyMessage.innerHTML = 'Uw cart is leeg. <a href="index.html">Ga naar onze producten</a> om te beginnen met winkelen!';
         cartItemsContainer.appendChild(emptyMessage);
         return;
     }
-
-    let totaalPrijs = 0;
-
-    // Mapping van veldnamen naar labels
-    const labels = {
-        motorType: 'Motor',
-        switchType: 'Schakelaar',
-        slatColor: 'Kleur lamellen',
-        casingColor: 'Kleur omkasting',
-        guideColor: 'Kleur geleider en onderlat',
-        casingType: 'Type omkasting',
-        guideType: 'Type geleider',
-        operationSide: 'Bedieningszijde',
-        falseWindowsill: 'Vals vensterbank',
-        installation: 'Montage',
-        material: 'Materiaal',
-        slatWidth: 'Breedte lamellen',
-        ladder: 'Ladder',
-        operationType: 'Bedieningstype',
-        setup: 'Installatie',
-        width: 'Breedte',
-        height: 'Hoogte',
-        projection: 'Uitval',
-        fabricColor: 'Kleur doek',
-        frameColor: 'Kleur frame',
-        mountingType: 'Montagewijze',
-        color: 'Kleur',
-    };
 
     const valueMappings = {
         motorType: {
@@ -233,33 +205,57 @@ function updateCart() {
             'rechtsonder': 'Rechts onder',
         },
     };
-    
-    
+  
+    let totaalPrijs = 0;
+
     cart.forEach((item, index) => {
-        console.log(`Item weergegeven: ${item.name}, Prijs: €${item.price}, Aantal: ${item.quantity}`); // Debugging
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
         cartItem.style.display = 'grid';
-        cartItem.style.gridTemplateColumns = '2fr 1fr 1fr 1fr';
-        cartItem.style.gap = '10px';
-        cartItem.style.alignItems = 'center';
+        cartItem.style.gridTemplateColumns = '3fr 2fr';
+        cartItem.style.gap = '20px';
         cartItem.style.borderBottom = '1px solid #ddd';
-        cartItem.style.padding = '10px 0';
+        cartItem.style.padding = '20px 0';
 
-        let propertiesHTML = `<strong>${item.name}</strong>`;
-        Object.entries(item).forEach(([key, value]) => {
-            if (value && key !== 'type' && key !== 'name' && key !== 'price' && key !== 'quantity') {
-                const label = labels[key] || key; // Gebruik de mapping of fallback naar de key zelf
-                const mappedValue = valueMappings[key]?.[value] || value; // Gebruik value mapping indien beschikbaar
-                propertiesHTML += `<p>${label}: ${mappedValue}</p>`;
-            }
-        });
+        let propertiesHTML = `<div>`;
+        propertiesHTML += `<strong style="font-size: 1.2em; display: block;">${item.name}</strong>`;
+        propertiesHTML += `<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">`;
+
+        const mapValue = (key, value) => valueMappings[key]?.[value] || value;
+
+        // Rijtje 1: Breedte, Kastkleur, Geleiderkleur, Lamellenkleur
+        if (item.width) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Breedte:</strong> ${item.width}</div>`;
+        if (item.casingColor) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Kastkleur:</strong> ${mapValue('casingColor', item.casingColor)}</div>`;
+        if (item.guideColor) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Geleiderkleur:</strong> ${mapValue('guideColor', item.guideColor)}</div>`;
+        if (item.slatColor) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Lamellenkleur:</strong> ${mapValue('slatColor', item.slatColor)}</div>`;
+
+        // Rijtje 2: Hoogte, Type kast, Type motor, Type schakelaar
+        if (item.height) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Hoogte:</strong> ${item.height}</div>`;
+        if (item.casingType) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Type kast:</strong> ${item.casingType}</div>`;
+        if (item.motorType) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Type motor:</strong> ${mapValue('motorType', item.motorType)}</div>`;
+        if (item.switchType) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Type schakelaar:</strong> ${mapValue('switchType', item.switchType)}</div>`;
+
+        // Rijtje 3: Bedieningszijde, Vals vensterbank, Installatie
+        if (item.operationSide) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Bedieningszijde:</strong> ${item.operationSide}</div>`;
+        if (item.falseWindowsill) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Vals vensterbank:</strong> ${item.falseWindowsill}</div>`;
+        if (item.installation) propertiesHTML += `<div style="font-size: 0.9em;"><strong>Installatie:</strong> ${item.installation}</div>`;
+
+        propertiesHTML += `</div></div>`;
 
         cartItem.innerHTML = `
             <div>${propertiesHTML}</div>
-            <div>Aantal: ${item.quantity}</div>
-            <div>Prijs: €${(item.price * item.quantity).toFixed(2)}</div>
-            <button onclick="removeFromCart(${index})" style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">Verwijderen</button>
+            <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end; justify-content: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span><strong>Aantal:</strong></span>
+                    <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; padding: 2px 4px; background: #f8f8f8;">
+                        <button onclick="updateQuantity(${index}, -1)" style="background: #ddd; border: none; font-size: 12px; cursor: pointer; padding: 4px 6px;">&minus;</button>
+                        <strong style="min-width: 20px; text-align: center; font-size: 14px; padding: 0 8px;">${item.quantity}</strong>
+                        <button onclick="updateQuantity(${index}, 1)" style="background: #ddd; border: none; font-size: 12px; cursor: pointer; padding: 4px 6px;">&plus;</button>
+                    </div>
+                    <div style="margin-left: 10px; font-size: 0.9em;"><strong>Prijs:</strong> €${(item.price * item.quantity).toFixed(2)}</div>
+                    <button onclick="removeFromCart(${index})" style="background: none; border: none; cursor: pointer; font-size: 14px; color: red; margin-left: 10px;">&#10005;</button>
+                </div>
+            </div>
         `;
         cartItemsContainer.appendChild(cartItem);
 
@@ -272,15 +268,13 @@ function updateCart() {
     totaalElement.style.textAlign = 'right';
     totaalElement.innerHTML = `Totaal: €${totaalPrijs.toFixed(2)}`;
     cartItemsContainer.appendChild(totaalElement);
-
-    console.log(`Totaalprijs bijgewerkt: €${totaalPrijs.toFixed(2)}`); // Debugging
 }
 
 // Item verwijderen uit cart
 function removeFromCart(index) {
-    cart.splice(index, 1); // Verwijder het item
-    localStorage.setItem('cart', JSON.stringify(cart)); // Werk localStorage bij
-    updateCart(); // Update de cart
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
 }
 
 // Voeg een product toe via een formulierknop
@@ -291,8 +285,7 @@ function initializeAddToCartButtons() {
     document.getElementById('add-sunshade-btn')?.addEventListener('click', () => addProductToCartFromForm('zonnescherm'));
 }
 
-// Voeg een voorbeelditem toe bij het laden van de pagina
 window.onload = () => {
-    updateCart(); // Controleer de cart-status bij het laden van de pagina
+    updateCart();
     initializeAddToCartButtons();
 };
