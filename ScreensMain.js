@@ -104,8 +104,6 @@ function showMotorTypeAdjustmentMessage(referenceElement, message) {
     }, 5000);
 }
 
-
-
 function showAdjustmentMessageInline(inputElement, originalValue, newValue, limitType) {
     // Stel de juiste veldnaam in
     const fieldLabel = inputElement.id === 'width' ? 'breedte' : 'hoogte';
@@ -169,16 +167,6 @@ function validateInputOnBlur(inputElement) {
     calculatePrice();
 }
 
-
-function initializeForm() {
-    document.getElementById('motor-type').addEventListener('change', updateSwitchOptions);
-    document.getElementById('width').addEventListener('blur', (event) => validateInputOnBlur(event.target));
-    updateSwitchOptions();
-}
-
-window.addEventListener('load', initializeForm);
-
-
 function handleHeightChange(inputElement) {
     const value = parseFloat(inputElement.value) || 0;
 
@@ -203,7 +191,6 @@ function adjustHeightIfNecessary(width) {
         validateDimensions(width, heightMax);
     }
 }
-
 
 function validateWidthAndAdjustHeight(widthInput) {
     const width = parseFloat(widthInput.value) || 0;
@@ -354,7 +341,6 @@ function validateHeightAndWidthOnInput(inputElement) {
     return true; // Geldige combinatie
 }
 
-
 // Initialiseer de event listeners
 function initializeForm() {
     const widthInput = document.getElementById('width');
@@ -364,8 +350,6 @@ function initializeForm() {
     widthInput.addEventListener('input', () => validateHeightAndWidthOnInput(widthInput));
     heightInput.addEventListener('input', () => validateHeightAndWidthOnInput(heightInput));
 }
-
-
 
 function calculatePrice() {
     const width = parseFloat(document.getElementById('width').value) || 0;
@@ -488,10 +472,18 @@ function addToCart() {
         type: 'screen', // Specifiek type product toevoegen
         width,
         height,
+        width,
+        height,
         motorType,
         switchType,
         falseWindowsill,
         installation,
+        operationSide,
+        casingColor,
+        guideColor,
+        slatColor,
+        casingType,
+        guideType,
         price: price.toFixed(2),
         quantity: 1
     };
@@ -529,7 +521,6 @@ function addToCart() {
     }
 }
 
-
 // Winkelwagen updaten
 function updateCart() {
     console.log("updateCart aangeroepen"); // Debugging
@@ -546,17 +537,22 @@ function updateCart() {
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
 
+        // Bepaal de specifieke eigenschappen op basis van het producttype
         let specs = '';
         if (item.type === 'zonnescherm') {
             specs = `Breedte: ${item.width} cm, Uitval: ${item.projection} cm`;
         } else if (item.type === 'rolluik') {
             specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
         } else if (item.type === 'jaloezie') {
-            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm, Kleur: ${item.color}, Materiaal: ${item.material}`;
+            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm, Kleur: ${item.color},`;
         } else if (item.type === 'screen') {
-            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm,`;
+            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
+        } else {
+            // Standaardweergave voor andere producttypen
+            specs = `Breedte: ${item.width} cm, Hoogte: ${item.height} cm`;
         }
 
+        // Bouw de HTML voor het winkelwagenitem
         cartItem.innerHTML = `
             <div class="cart-item-details">
                 <span class="cart-item-title">${item.name}</span>
