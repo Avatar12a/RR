@@ -587,3 +587,388 @@ button#add-to-cart-button:hover {
         overflow-x: hidden;
     }
 }
+
+body.cart-page {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.cart-page #cart-items {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-page .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-page .cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-page .cart-item-properties {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 70%;
+}
+
+.cart-page .cart-item-properties div {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.cart-page .cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 30%;
+}
+
+.cart-page .cart-item-actions div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-page .cart-item-actions button {
+    background: #ddd;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.cart-page .cart-item-actions button:hover {
+    background: #ccc;
+}
+
+.cart-page .cart-item-actions .remove-btn {
+    background: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.cart-page .cart-item-actions .remove-btn:hover {
+    color: darkred;
+}
+
+.cart-page .total-price {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+.cart-page .empty-cart-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+}
+
+.cart-page .empty-cart-message a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.cart-page .empty-cart-message a:hover {
+    text-decoration: underline;
+}
+
+body.cart-page .cart-item {
+    display: flex;
+    flex-direction: column; /* Zorgt ervoor dat alles onder elkaar staat */
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+body.cart-page .product-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+body.cart-page .cart-item-properties {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+body.cart-page .cart-item-properties div {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+body.cart-page .cart-item-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+body.cart-page .cart-item-actions div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.cart-page .cart-item-actions button {
+    background: #ddd;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+body.cart-page .cart-item-actions button:hover {
+    background: #ccc;
+}
+
+body.cart-page .cart-item-actions .remove-btn {
+    background: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+body.cart-page .cart-item-actions .remove-btn:hover {
+    color: darkred;
+}
+
+body.cart-page .total-price {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+body.cart-page .empty-cart-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+}
+
+body.cart-page .empty-cart-message a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+body.cart-page .empty-cart-message a:hover {
+    text-decoration: underline;
+}
+
+body.cart-page .cart-item {
+    display: flex;
+    justify-content: space-between; /* Zorgt ervoor dat de acties rechts staan */
+    align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    position: relative; /* Voor positionering van de acties */
+}
+
+body.cart-page .product-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    width: 100%; /* Zorgt ervoor dat de naam de volledige breedte inneemt */
+}
+
+body.cart-page .cart-item-properties {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+    width: 70%; /* Zorgt ervoor dat de eigenschappen niet te breed zijn */
+}
+
+body.cart-page .cart-item-properties div {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+body.cart-page .cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    position: absolute;
+    right: 15px; /* Plaatst de acties helemaal rechts */
+    top: 50%; /* Centreert de acties verticaal */
+    transform: translateY(-50%);
+}
+
+body.cart-page .cart-item-actions .quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.cart-page .cart-item-actions .quantity-control button {
+    background: #ddd;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+body.cart-page .cart-item-actions .quantity-control button:hover {
+    background: #ccc;
+}
+
+body.cart-page .cart-item-actions .price-display {
+    font-weight: bold;
+}
+
+body.cart-page .cart-item-actions .remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 0;
+}
+
+body.cart-page .cart-item-actions .remove-btn:hover {
+    color: darkred;
+}
+
+body.cart-page .total-price {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+body.cart-page .empty-cart-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+}
+
+body.cart-page .empty-cart-message a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+body.cart-page .empty-cart-message a:hover {
+    text-decoration: underline;
+}
+
+body.cart-page .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+body.cart-page .product-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+body.cart-page .cart-item-properties {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+    width: 70%;
+}
+
+body.cart-page .cart-item-properties div {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+body.cart-page .cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+body.cart-page .cart-item-actions .quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.cart-page .cart-item-actions .quantity-control button {
+    background: #fff; /* Witte achtergrond */
+    border: 1px solid #ccc; /* Omlijning */
+    padding: 4px 8px; /* Iets meer padding */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #333; /* Donkere tekst */
+}
+
+body.cart-page .cart-item-actions .quantity-control button:hover {
+    background: #f0f0f0; /* Lichtgrijze achtergrond bij hover */
+}
+
+body.cart-page .cart-item-actions .remove-btn {
+    background: none; /* Geen achtergrond */
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 0;
+    margin-left: 10px; /* Plaatst de × rechts van de plus/min-knoppen */
+}
+
+body.cart-page .cart-item-actions .remove-btn:hover {
+    color: darkred;
+}
+
+body.cart-page .cart-item-actions .price-display {
+    font-weight: bold;
+}
+
+body.cart-page .total-price {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+body.cart-page .empty-cart-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+}
+
+body.cart-page .empty-cart-message a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+body.cart-page .empty-cart-message a:hover {
+    text-decoration: underline;
+}
+
