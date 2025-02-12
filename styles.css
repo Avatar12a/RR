@@ -972,3 +972,11 @@ body.cart-page .empty-cart-message a:hover {
     text-decoration: underline;
 }
 
+body.cart-page .banner,
+body.cart-page footer {
+    width: 100vw; /* Volledige breedte van het scherm */
+    margin-left: calc(-50vw + 50%); /* Zorgt ervoor dat het gecentreerd blijft */
+    position: relative; /* Voorkomt dat andere elementen worden beïnvloed */
+    left: 0;
+}
+
