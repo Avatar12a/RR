@@ -980,119 +980,102 @@ body.cart-page footer {
     left: 0;
 }
 
-/* Algemene aanpassingen voor een betere mobiele weergave */
 @media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-
-    /* Winkelwagen item */
+    /* ✅ Zorgt dat elk product als een blok wordt weergegeven */
     body.cart-page .cart-item {
-        display: flex;
-        flex-direction: column; /* Stapelt de inhoud onder elkaar */
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    /* Productnaam */
-    body.cart-page .product-name {
-        font-size: 1em;
-        text-align: center;
-        margin-bottom: 5px;
-        padding-bottom: 5px;
-    }
-
-    /* Eigenschappen in een kolom i.p.v. drie kolommen */
-    body.cart-page .cart-item-properties {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        text-align: center;
-    }
-
-    /* Knoppen en acties overzichtelijker maken */
-    body.cart-page .cart-item-actions {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 10px;
-        position: static; /* Voorkomt overlap op kleine schermen */
-        transform: none;
-        text-align: center;
-    }
-
-    body.cart-page .cart-item-actions div {
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    body.cart-page .cart-item-actions button {
-        padding: 6px 10px;
-        font-size: 0.9em;
-    }
-
-    /* Aantal aanpassingen */
-    body.cart-page .cart-item-actions .quantity-control {
-        display: flex;
-        gap: 5px;
-        justify-content: center;
-    }
-
-    body.cart-page .cart-item-actions .remove-btn {
-        font-size: 1em;
-        margin-left: 5px;
-    }
-
-    /* Totaalprijs netjes weergeven */
-    body.cart-page .total-price {
-        text-align: center;
-        font-size: 1.1em;
-        margin-top: 15px;
-    }
-
-    /* Winkelwagen knop */
-    .checkout-button {
-        width: 100%;
-        font-size: 1em;
         padding: 12px;
+        border-bottom: 1px solid #ddd;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        text-align: center;
+        position: relative;
+    }
+
+    /* ✅ Zorgt dat de eigenschappen in 2 kolommen blijven */
+    body.cart-page .cart-item-properties {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px 10px;
+        font-size: 0.9em;
+        width: 100%;
+        padding: 8px 0;
+        text-align: left;
+    }
+
+    body.cart-page .cart-item-properties div {
+        background: #f8f8f8;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ✅ Dwingt de knoppen naar beneden */
+    body.cart-page .cart-item-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; /* Knoppen netjes naast elkaar */
+        align-items: center;
+        padding: 12px;
+        border-top: 1px solid #ddd;
+        flex-wrap: nowrap;
+        min-height: 50px;
+        margin-top: 10px; /* Zorgt dat het niet overlapt met eigenschappen */
+        position: relative;
+    }
+
+    /* ✅ Voorkomt overlap */
+    body.cart-page .cart-item-properties + .cart-item-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    /* ✅ Prijs blijft links */
+    body.cart-page .price-display {
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: left;
+        flex: 1;
+    }
+
+    /* ✅ Hoeveelheid-knoppen blijven horizontaal naast elkaar */
+    body.cart-page .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    body.cart-page .quantity-control button {
+        background: #ff8c00;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+
+    body.cart-page .quantity-control button:hover {
+        background: #e67e00;
+    }
+
+    /* ✅ Verwijderknop rechts */
+    body.cart-page .remove-btn {
+        background: none;
+        border: none;
+        color: red;
+        font-size: 1.2em;
+        cursor: pointer;
+    }
+
+    body.cart-page .remove-btn:hover {
+        color: darkred;
     }
 }
 
-/* Banner en footer volledige breedte */
-.cart-page header,
-.cart-page .new-banner,
-.cart-page footer {
-    width: 100vw;
-    position: relative;
-    left: 0;
-    margin: 0 auto;
-    padding: 10px 0;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-/* Header */
-header {
-    background-color: #ff8c00;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
-
-/* Banner */
-.new-banner {
-    background-color: #fffacd;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Footer */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 15px 0;
-    margin-top: auto;
-}
