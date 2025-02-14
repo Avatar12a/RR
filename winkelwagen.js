@@ -223,6 +223,10 @@ function addToCart(product) {
         return;
     }
 
+    // Zorg ervoor dat breedte en hoogte altijd "cm" bevatten
+    if (!product.width.endsWith('cm')) product.width += ' cm';
+    if (!product.height.endsWith('cm')) product.height += ' cm';
+
     const existingProductIndex = cart.findIndex(item => (
         item.type === product.type &&
         item.width === product.width &&
@@ -328,6 +332,7 @@ function addProductToCartFromForm(type) {
 }
 
 // Functie om de winkelwagen weer te geven
+// Functie om de winkelwagen weer te geven
 function updateCart() {
     const cartItemsContainer = document.getElementById('cart-items');
     if (!cartItemsContainer) return;
@@ -336,11 +341,7 @@ function updateCart() {
     let totaalPrijs = 0;
 
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = `
-            <p class="empty-cart-message">
-                Uw cart is leeg. <a href="index.html">Ga naar onze producten</a>
-            </p>
-        `;
+        cartItemsContainer.innerHTML = `<p style="text-align: center;">Uw cart is leeg. <a href="index.html">Ga naar onze producten</a></p>`;
         return;
     }
 
@@ -348,50 +349,36 @@ function updateCart() {
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
 
-        // Productnaam als titel boven de eigenschappen
-        const productName = `<div class="product-name"><strong>${item.name}</strong></div>`;
-
-        // Eigenschappen dynamisch genereren
-        let propertiesHTML = `<div class="cart-item-properties">`;
+        let propertiesHTML = `<div><strong style="font-size: 1.2em;">${item.name}</strong>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">`;
 
         Object.entries(item).forEach(([key, value]) => {
             if (['name', 'price', 'quantity', 'type'].includes(key)) return;
-
-            // Vertaal de eigenschapnaam en waarde indien nodig
+            if (key === 'width' || key === 'height') {
+                value = value.toString().includes('cm') ? value : `${value} cm`;
+            }
             const translatedKey = typeof propertyMappings[key] === 'object' 
                 ? propertyMappings[key][item.type] || key 
                 : propertyMappings[key] || key;
-            let translatedValue = valueMappings[key]?.[value] || value;
-
-            // Voeg "cm" toe aan "hoogte" en "breedte", behalve bij "breedte lamellen"
-            if ((key === 'width' || key === 'height') && !key.includes('slatWidth')) {
-                translatedValue += ' cm';
-            }
-
-            propertiesHTML += `
-                <div>
-                    <strong>${translatedKey}:</strong> 
-                    ${translatedValue}
-                </div>
-            `;
+            const translatedValue = valueMappings[key]?.[value] || value;
+            
+            propertiesHTML += `<div style="font-size: 0.9em;"><strong>${translatedKey}:</strong> ${translatedValue}</div>`;
         });
 
-        propertiesHTML += `</div>`;
+        propertiesHTML += `</div></div>`;
 
-        // Voeg de productnaam en eigenschappen samen
         cartItem.innerHTML = `
-            ${productName}
             ${propertiesHTML}
-            <div class="cart-item-actions">
-                <div>
+            <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+                <div style="display: flex; align-items: center; gap: 10px;">
                     <span><strong>Aantal:</strong></span>
-                    <div>
-                        <button onclick="updateQuantity(${index}, -1)">−</button>
-                        <strong>${item.quantity}</strong>
-                        <button onclick="updateQuantity(${index}, 1)">+</button>
+                    <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; padding: 2px 4px; background: #f8f8f8;">
+                        <button onclick="updateQuantity(${index}, -1)" style="background: #ddd; border: none; padding: 4px 6px; cursor: pointer;">−</button>
+                        <strong style="min-width: 20px; text-align: center; padding: 0 8px;">${item.quantity}</strong>
+                        <button onclick="updateQuantity(${index}, 1)" style="background: #ddd; border: none; padding: 4px 6px; cursor: pointer;">+</button>
                     </div>
-                    <div><strong>Prijs:</strong> €${(item.price * item.quantity).toFixed(2)}</div>
-                    <button class="remove-btn" onclick="removeFromCart(${index})">×</button>
+                    <div style="margin-left: 10px;"><strong>Prijs:</strong> €${(item.price * item.quantity).toFixed(2)}</div>
+                    <button onclick="removeFromCart(${index})" style="background: none; border: none; color: red; cursor: pointer;">×</button>
                 </div>
             </div>
         `;
@@ -402,10 +389,11 @@ function updateCart() {
 
     // Totaalprijs toevoegen
     const totalElement = document.createElement('div');
-    totalElement.className = 'total-price';
+    totalElement.style.cssText = 'margin-top: 20px; font-weight: bold; text-align: right;';
     totalElement.innerHTML = `Totaal: €${totaalPrijs.toFixed(2)}`;
     cartItemsContainer.appendChild(totalElement);
 }
+
 
 // Functie om een product te verwijderen
 function removeFromCart(index) {
@@ -435,7 +423,6 @@ function initializeAddToCartButtons() {
     document.getElementById('add-screen-btn')?.addEventListener('click', () => addProductToCartFromForm('screen'));
     document.getElementById('add-sunshade-btn')?.addEventListener('click', () => addProductToCartFromForm('zonnescherm'));
 }
-
 
 // Start de winkelwagen
 window.onload = () => {
